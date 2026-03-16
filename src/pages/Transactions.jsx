@@ -137,7 +137,7 @@ export default function Transactions() {
   };
 
   return (
-    <Box>
+    <Box w="full" maxW="100%" overflowX="hidden">
       {/* ── Header ── */}
       <Flex justify="space-between" align="center" mb={4} gap={3}>
         <Box>
@@ -179,99 +179,62 @@ export default function Transactions() {
       </Flex>
 
       {/* ── Resumen rápido ── */}
-      <Box mb={4}>
-        {esMobile ? (
-          // Móvil: 2 arriba + 1 abajo
-          <>
-            <HStack gap={3} mb={3}>
-              <Box
-                flex={1}
-                bg={c.bgCard}
-                border="1px solid"
-                borderColor={c.borderColor}
-                borderRadius="xl"
-                p={3}
-                boxShadow={c.shadow}
-              >
-                <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                  Ingresos
-                </Text>
-                <Text fontSize="md" fontWeight="bold" color="green.500">
-                  {formatPEN(totalIngresos)}
-                </Text>
-              </Box>
-              <Box
-                flex={1}
-                bg={c.bgCard}
-                border="1px solid"
-                borderColor={c.borderColor}
-                borderRadius="xl"
-                p={3}
-                boxShadow={c.shadow}
-              >
-                <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                  Gastos
-                </Text>
-                <Text fontSize="md" fontWeight="bold" color="red.500">
-                  {formatPEN(totalGastos)}
-                </Text>
-              </Box>
-            </HStack>
-            <Box
-              bg={c.bgCard}
-              border="1px solid"
-              borderColor={c.borderColor}
-              borderRadius="xl"
-              p={3}
-              boxShadow={c.shadow}
-            >
-              <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                Balance
-              </Text>
-              <Text
-                fontSize="md"
-                fontWeight="bold"
-                color={
-                  totalIngresos - totalGastos >= 0 ? "green.500" : "red.500"
-                }
-              >
-                {formatPEN(totalIngresos - totalGastos)}
-              </Text>
-            </Box>
-          </>
-        ) : (
-          // Desktop: 3 en fila
-          <HStack gap={4}>
-            {[
-              { label: "Ingresos", valor: totalIngresos, color: "green.500" },
-              { label: "Gastos", valor: totalGastos, color: "red.500" },
-              {
-                label: "Balance",
-                valor: totalIngresos - totalGastos,
-                color:
-                  totalIngresos - totalGastos >= 0 ? "green.500" : "red.500",
-              },
-            ].map((item) => (
-              <Box
-                key={item.label}
-                flex={1}
-                bg={c.bgCard}
-                border="1px solid"
-                borderColor={c.borderColor}
-                borderRadius="xl"
-                p={4}
-                boxShadow={c.shadow}
-              >
-                <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                  {item.label}
-                </Text>
-                <Text fontSize="lg" fontWeight="bold" color={item.color}>
-                  {formatPEN(item.valor)}
-                </Text>
-              </Box>
-            ))}
-          </HStack>
-        )}
+      <Box mb={4} w="full">
+        <Flex direction="row" gap={3} mb={3} w="full">
+          <Box
+            style={{ flex: 1, minWidth: 0 }}
+            bg={c.bgCard}
+            border="1px solid"
+            borderColor={c.borderColor}
+            borderRadius="xl"
+            p={3}
+            boxShadow={c.shadow}
+          >
+            <Text fontSize="xs" color={c.textSecondary} mb={1}>
+              Ingresos
+            </Text>
+            <Text fontSize="md" fontWeight="bold" color="green.500">
+              {formatPEN(totalIngresos)}
+            </Text>
+          </Box>
+          <Box
+            style={{ flex: 1, minWidth: 0 }}
+            bg={c.bgCard}
+            border="1px solid"
+            borderColor={c.borderColor}
+            borderRadius="xl"
+            p={3}
+            boxShadow={c.shadow}
+          >
+            <Text fontSize="xs" color={c.textSecondary} mb={1}>
+              Gastos
+            </Text>
+            <Text fontSize="md" fontWeight="bold" color="red.500">
+              {formatPEN(totalGastos)}
+            </Text>
+          </Box>
+        </Flex>
+
+        <Box
+          w="full"
+          bg={c.bgCard}
+          border="1px solid"
+          borderColor={c.borderColor}
+          borderRadius="xl"
+          p={3}
+          boxShadow={c.shadow}
+        >
+          <Text fontSize="xs" color={c.textSecondary} mb={1}>
+            Balance
+          </Text>
+          <Text
+            fontSize="md"
+            fontWeight="bold"
+            color={totalIngresos - totalGastos >= 0 ? "green.500" : "red.500"}
+          >
+            {formatPEN(totalIngresos - totalGastos)}
+          </Text>
+        </Box>
       </Box>
 
       {/* ── Panel de filtros ── */}

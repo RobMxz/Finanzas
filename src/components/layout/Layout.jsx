@@ -193,6 +193,11 @@ export default function Layout() {
         flexDirection="column"
         minH="100vh"
         pb={{ base: "70px", md: 0 }}
+        w={{
+          base: "100%",
+          md: `calc(100% - ${sidebarOpen ? "240px" : "70px"})`,
+        }}
+        overflowX="hidden"
       >
         {/* Header */}
         <Flex
@@ -316,7 +321,14 @@ export default function Layout() {
         </Flex>
 
         {/* Página */}
-        <Box p={{ base: 4, md: 6 }} flex={1} className="animate-fadeIn">
+        <Box
+          p={{ base: 4, md: 6 }}
+          flex={1}
+          className="animate-fadeIn"
+          w="100%"
+          maxW="100%"
+          overflowX="hidden"
+        >
           <Outlet />
         </Box>
       </Box>
