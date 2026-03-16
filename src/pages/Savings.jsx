@@ -291,49 +291,66 @@ export default function Savings() {
       </Flex>
 
       {/* ── Resumen ── */}
-      <Flex gap={3} mb={4} flexWrap={{ base: "wrap", md: "nowrap" }}>
-        {[
-          {
-            label: "Objetivo total",
-            valor: formatPEN(totalObjetivo),
-            color: c.textPrimary,
-          },
-          {
-            label: "Total aportado",
-            valor: formatPEN(totalAportado),
-            color: "green.500",
-          },
-          {
-            label: "Metas completadas",
-            valor: `${metasCompletas} / ${goals.length}`,
-            color: "green.500",
-          },
-        ].map((item) => (
-          <Box
-            key={item.label}
-            flex={1}
-            minW={{ base: "calc(50% - 6px)", md: "0" }}
-            bg={c.bgCard}
-            border="1px solid"
-            borderColor={c.borderColor}
-            borderRadius="xl"
-            p={{ base: 3, md: 4 }}
-            boxShadow={c.shadow}
-          >
-            <Text fontSize="xs" color={c.textSecondary} mb={1}>
-              {item.label}
-            </Text>
-            <Text
-              fontSize={{ base: "md", md: "lg" }}
-              fontWeight="bold"
-              color={item.color}
+      <Box mb={4}>
+        {/* Fila 1: Objetivo + Aportado */}
+        <HStack gap={3} mb={3}>
+          {[
+            {
+              label: "Objetivo total",
+              valor: formatPEN(totalObjetivo),
+              color: c.textPrimary,
+            },
+            {
+              label: "Total aportado",
+              valor: formatPEN(totalAportado),
+              color: "green.500",
+            },
+          ].map((item) => (
+            <Box
+              key={item.label}
+              flex={1}
+              bg={c.bgCard}
+              border="1px solid"
+              borderColor={c.borderColor}
+              borderRadius="xl"
+              p={{ base: 3, md: 4 }}
+              boxShadow={c.shadow}
             >
-              {item.valor}
-            </Text>
-          </Box>
-        ))}
-      </Flex>
+              <Text fontSize="xs" color={c.textSecondary} mb={1}>
+                {item.label}
+              </Text>
+              <Text
+                fontSize={{ base: "md", md: "lg" }}
+                fontWeight="bold"
+                color={item.color}
+              >
+                {item.valor}
+              </Text>
+            </Box>
+          ))}
+        </HStack>
 
+        {/* Fila 2: Metas completadas sola */}
+        <Box
+          bg={c.bgCard}
+          border="1px solid"
+          borderColor={c.borderColor}
+          borderRadius="xl"
+          p={{ base: 3, md: 4 }}
+          boxShadow={c.shadow}
+        >
+          <Text fontSize="xs" color={c.textSecondary} mb={1}>
+            Metas completadas
+          </Text>
+          <Text
+            fontSize={{ base: "md", md: "lg" }}
+            fontWeight="bold"
+            color="green.500"
+          >
+            {metasCompletas} / {goals.length}
+          </Text>
+        </Box>
+      </Box>
       {/* ── Lista ── */}
       {loading ? (
         <Flex justify="center" align="center" py={12}>

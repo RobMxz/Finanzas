@@ -177,39 +177,58 @@ export default function Transactions() {
       </Flex>
 
       {/* ── Resumen rápido ── */}
-      <Flex gap={3} mb={4} flexWrap={{ base: "wrap", md: "nowrap" }}>
-        {[
-          { label: "Ingresos", valor: totalIngresos, color: "green.500" },
-          { label: "Gastos", valor: totalGastos, color: "red.500" },
-          {
-            label: "Balance",
-            valor: totalIngresos - totalGastos,
-            color: totalIngresos - totalGastos >= 0 ? "green.500" : "red.500",
-          },
-        ].map((item) => (
-          <Box
-            key={item.label}
-            flex={1}
-            minW={{ base: "calc(50% - 6px)", md: "0" }}
-            bg={c.bgCard}
-            border="1px solid"
-            borderColor={c.borderColor}
-            borderRadius="xl"
-            p={{ base: 3, md: 4 }}
-          >
-            <Text fontSize="xs" color={c.textSecondary} mb={1}>
-              {item.label}
-            </Text>
-            <Text
-              fontSize={{ base: "md", md: "lg" }}
-              fontWeight="bold"
-              color={item.color}
+      <Box mb={4}>
+        {/* Fila 1: Ingresos + Gastos */}
+        <HStack gap={3} mb={3}>
+          {[
+            { label: "Ingresos", valor: totalIngresos, color: "green.500" },
+            { label: "Gastos", valor: totalGastos, color: "red.500" },
+          ].map((item) => (
+            <Box
+              key={item.label}
+              flex={1}
+              bg={c.bgCard}
+              border="1px solid"
+              borderColor={c.borderColor}
+              borderRadius="xl"
+              p={{ base: 3, md: 4 }}
+              boxShadow={c.shadow}
             >
-              {formatPEN(item.valor)}
-            </Text>
-          </Box>
-        ))}
-      </Flex>
+              <Text fontSize="xs" color={c.textSecondary} mb={1}>
+                {item.label}
+              </Text>
+              <Text
+                fontSize={{ base: "md", md: "lg" }}
+                fontWeight="bold"
+                color={item.color}
+              >
+                {formatPEN(item.valor)}
+              </Text>
+            </Box>
+          ))}
+        </HStack>
+
+        {/* Fila 2: Balance solo */}
+        <Box
+          bg={c.bgCard}
+          border="1px solid"
+          borderColor={c.borderColor}
+          borderRadius="xl"
+          p={{ base: 3, md: 4 }}
+          boxShadow={c.shadow}
+        >
+          <Text fontSize="xs" color={c.textSecondary} mb={1}>
+            Balance
+          </Text>
+          <Text
+            fontSize={{ base: "md", md: "lg" }}
+            fontWeight="bold"
+            color={totalIngresos - totalGastos >= 0 ? "green.500" : "red.500"}
+          >
+            {formatPEN(totalIngresos - totalGastos)}
+          </Text>
+        </Box>
+      </Box>
 
       {/* ── Panel de filtros ── */}
       {showFiltros && (
