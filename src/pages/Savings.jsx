@@ -293,98 +293,57 @@ export default function Savings() {
       </Flex>
 
       {/* ── Resumen ── */}
-      <Box mb={4}>
-        {esMobile ? (
-          <>
-            <HStack gap={3} mb={3}>
-              <Box
-                flex={1}
-                bg={c.bgCard}
-                border="1px solid"
-                borderColor={c.borderColor}
-                borderRadius="xl"
-                p={3}
-                boxShadow={c.shadow}
-              >
-                <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                  Objetivo total
-                </Text>
-                <Text fontSize="md" fontWeight="bold" color={c.textPrimary}>
-                  {formatPEN(totalObjetivo)}
-                </Text>
-              </Box>
-              <Box
-                flex={1}
-                bg={c.bgCard}
-                border="1px solid"
-                borderColor={c.borderColor}
-                borderRadius="xl"
-                p={3}
-                boxShadow={c.shadow}
-              >
-                <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                  Total aportado
-                </Text>
-                <Text fontSize="md" fontWeight="bold" color="green.500">
-                  {formatPEN(totalAportado)}
-                </Text>
-              </Box>
-            </HStack>
-            <Box
-              bg={c.bgCard}
-              border="1px solid"
-              borderColor={c.borderColor}
-              borderRadius="xl"
-              p={3}
-              boxShadow={c.shadow}
-            >
-              <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                Metas completadas
-              </Text>
-              <Text fontSize="md" fontWeight="bold" color="green.500">
-                {metasCompletas} / {goals.length}
-              </Text>
-            </Box>
-          </>
-        ) : (
-          <HStack gap={4}>
-            {[
-              {
-                label: "Objetivo total",
-                valor: formatPEN(totalObjetivo),
-                color: c.textPrimary,
-              },
-              {
-                label: "Total aportado",
-                valor: formatPEN(totalAportado),
-                color: "green.500",
-              },
-              {
-                label: "Metas completadas",
-                valor: `${metasCompletas} / ${goals.length}`,
-                color: "green.500",
-              },
-            ].map((item) => (
-              <Box
-                key={item.label}
-                flex={1}
-                bg={c.bgCard}
-                border="1px solid"
-                borderColor={c.borderColor}
-                borderRadius="xl"
-                p={4}
-                boxShadow={c.shadow}
-              >
-                <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                  {item.label}
-                </Text>
-                <Text fontSize="lg" fontWeight="bold" color={item.color}>
-                  {item.valor}
-                </Text>
-              </Box>
-            ))}
-          </HStack>
-        )}
+      <Box mb={4} w="full">
+        <Flex direction="row" gap={3} mb={3} w="full">
+          <Box
+            style={{ flex: 1, minWidth: 0 }}
+            bg={c.bgCard}
+            border="1px solid"
+            borderColor={c.borderColor}
+            borderRadius="xl"
+            p={3}
+            boxShadow={c.shadow}
+          >
+            <Text fontSize="xs" color={c.textSecondary} mb={1}>
+              Objetivo total
+            </Text>
+            <Text fontSize="md" fontWeight="bold" color={c.textPrimary}>
+              {formatPEN(totalObjetivo)}
+            </Text>
+          </Box>
+          <Box
+            style={{ flex: 1, minWidth: 0 }}
+            bg={c.bgCard}
+            border="1px solid"
+            borderColor={c.borderColor}
+            borderRadius="xl"
+            p={3}
+            boxShadow={c.shadow}
+          >
+            <Text fontSize="xs" color={c.textSecondary} mb={1}>
+              Total aportado
+            </Text>
+            <Text fontSize="md" fontWeight="bold" color="green.500">
+              {formatPEN(totalAportado)}
+            </Text>
+          </Box>
+        </Flex>
+        <Box
+          w="full"
+          bg={c.bgCard}
+          border="1px solid"
+          borderColor={c.borderColor}
+          borderRadius="xl"
+          p={3}
+          boxShadow={c.shadow}
+        >
+          <Text fontSize="xs" color={c.textSecondary} mb={1}>
+            Metas completadas
+          </Text>
+          <Text fontSize="md" fontWeight="bold" color="green.500">
+            {metasCompletas} / {goals.length}
+          </Text>
+        </Box>
       </Box>
       {/* ── Lista ── */}
       {loading ? (

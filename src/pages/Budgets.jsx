@@ -252,101 +252,61 @@ export default function Budgets() {
       </Flex>
 
       {/* ── Resumen ── */}
-      <Box mb={4}>
-        {esMobile ? (
-          <>
-            <HStack gap={3} mb={3}>
-              <Box
-                flex={1}
-                bg={c.bgCard}
-                border="1px solid"
-                borderColor={c.borderColor}
-                borderRadius="xl"
-                p={3}
-                boxShadow={c.shadow}
-              >
-                <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                  Presupuestado
-                </Text>
-                <Text fontSize="md" fontWeight="bold" color={c.textPrimary}>
-                  {formatPEN(totalLimite)}
-                </Text>
-              </Box>
-              <Box
-                flex={1}
-                bg={c.bgCard}
-                border="1px solid"
-                borderColor={c.borderColor}
-                borderRadius="xl"
-                p={3}
-                boxShadow={c.shadow}
-              >
-                <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                  Gastado
-                </Text>
-                <Text fontSize="md" fontWeight="bold" color="red.500">
-                  {formatPEN(totalGastado)}
-                </Text>
-              </Box>
-            </HStack>
-            <Box
-              bg={c.bgCard}
-              border="1px solid"
-              borderColor={c.borderColor}
-              borderRadius="xl"
-              p={3}
-              boxShadow={c.shadow}
-            >
-              <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                Disponible
-              </Text>
-              <Text
-                fontSize="md"
-                fontWeight="bold"
-                color={
-                  totalLimite - totalGastado >= 0 ? "green.500" : "red.500"
-                }
-              >
-                {formatPEN(totalLimite - totalGastado)}
-              </Text>
-            </Box>
-          </>
-        ) : (
-          <HStack gap={4}>
-            {[
-              {
-                label: "Presupuestado",
-                valor: totalLimite,
-                color: c.textPrimary,
-              },
-              { label: "Gastado", valor: totalGastado, color: "red.500" },
-              {
-                label: "Disponible",
-                valor: totalLimite - totalGastado,
-                color:
-                  totalLimite - totalGastado >= 0 ? "green.500" : "red.500",
-              },
-            ].map((item) => (
-              <Box
-                key={item.label}
-                flex={1}
-                bg={c.bgCard}
-                border="1px solid"
-                borderColor={c.borderColor}
-                borderRadius="xl"
-                p={4}
-                boxShadow={c.shadow}
-              >
-                <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                  {item.label}
-                </Text>
-                <Text fontSize="lg" fontWeight="bold" color={item.color}>
-                  {formatPEN(item.valor)}
-                </Text>
-              </Box>
-            ))}
-          </HStack>
-        )}
+      <Box mb={4} w="full">
+        <Flex direction="row" gap={3} mb={3} w="full">
+          <Box
+            style={{ flex: 1, minWidth: 0 }}
+            bg={c.bgCard}
+            border="1px solid"
+            borderColor={c.borderColor}
+            borderRadius="xl"
+            p={3}
+            boxShadow={c.shadow}
+          >
+            <Text fontSize="xs" color={c.textSecondary} mb={1}>
+              Presupuestado
+            </Text>
+            <Text fontSize="md" fontWeight="bold" color={c.textPrimary}>
+              {formatPEN(totalLimite)}
+            </Text>
+          </Box>
+          <Box
+            style={{ flex: 1, minWidth: 0 }}
+            bg={c.bgCard}
+            border="1px solid"
+            borderColor={c.borderColor}
+            borderRadius="xl"
+            p={3}
+            boxShadow={c.shadow}
+          >
+            <Text fontSize="xs" color={c.textSecondary} mb={1}>
+              Gastado
+            </Text>
+            <Text fontSize="md" fontWeight="bold" color="red.500">
+              {formatPEN(totalGastado)}
+            </Text>
+          </Box>
+        </Flex>
+        <Box
+          w="full"
+          bg={c.bgCard}
+          border="1px solid"
+          borderColor={c.borderColor}
+          borderRadius="xl"
+          p={3}
+          boxShadow={c.shadow}
+        >
+          <Text fontSize="xs" color={c.textSecondary} mb={1}>
+            Disponible
+          </Text>
+          <Text
+            fontSize="md"
+            fontWeight="bold"
+            color={totalLimite - totalGastado >= 0 ? "green.500" : "red.500"}
+          >
+            {formatPEN(totalLimite - totalGastado)}
+          </Text>
+        </Box>
       </Box>
 
       {/* ── Modal formulario ── */}
