@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useBreakpointValue } from "@chakra-ui/react";
 import {
   Box,
   Flex,
@@ -101,6 +102,7 @@ function Modal({ title, onClose, children }) {
 
 export default function Savings() {
   const c = useColorTheme();
+  const esMobile = useBreakpointValue({ base: true, md: false });
   const toast = useToast();
   const {
     goals,
@@ -292,64 +294,97 @@ export default function Savings() {
 
       {/* ── Resumen ── */}
       <Box mb={4}>
-        {/* Fila 1: Objetivo + Aportado */}
-        <HStack gap={3} mb={3}>
-          {[
-            {
-              label: "Objetivo total",
-              valor: formatPEN(totalObjetivo),
-              color: c.textPrimary,
-            },
-            {
-              label: "Total aportado",
-              valor: formatPEN(totalAportado),
-              color: "green.500",
-            },
-          ].map((item) => (
+        {esMobile ? (
+          <>
+            <HStack gap={3} mb={3}>
+              <Box
+                flex={1}
+                bg={c.bgCard}
+                border="1px solid"
+                borderColor={c.borderColor}
+                borderRadius="xl"
+                p={3}
+                boxShadow={c.shadow}
+              >
+                <Text fontSize="xs" color={c.textSecondary} mb={1}>
+                  Objetivo total
+                </Text>
+                <Text fontSize="md" fontWeight="bold" color={c.textPrimary}>
+                  {formatPEN(totalObjetivo)}
+                </Text>
+              </Box>
+              <Box
+                flex={1}
+                bg={c.bgCard}
+                border="1px solid"
+                borderColor={c.borderColor}
+                borderRadius="xl"
+                p={3}
+                boxShadow={c.shadow}
+              >
+                <Text fontSize="xs" color={c.textSecondary} mb={1}>
+                  Total aportado
+                </Text>
+                <Text fontSize="md" fontWeight="bold" color="green.500">
+                  {formatPEN(totalAportado)}
+                </Text>
+              </Box>
+            </HStack>
             <Box
-              key={item.label}
-              flex={1}
               bg={c.bgCard}
               border="1px solid"
               borderColor={c.borderColor}
               borderRadius="xl"
-              p={{ base: 3, md: 4 }}
+              p={3}
               boxShadow={c.shadow}
             >
               <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                {item.label}
+                Metas completadas
               </Text>
-              <Text
-                fontSize={{ base: "md", md: "lg" }}
-                fontWeight="bold"
-                color={item.color}
-              >
-                {item.valor}
+              <Text fontSize="md" fontWeight="bold" color="green.500">
+                {metasCompletas} / {goals.length}
               </Text>
             </Box>
-          ))}
-        </HStack>
-
-        {/* Fila 2: Metas completadas sola */}
-        <Box
-          bg={c.bgCard}
-          border="1px solid"
-          borderColor={c.borderColor}
-          borderRadius="xl"
-          p={{ base: 3, md: 4 }}
-          boxShadow={c.shadow}
-        >
-          <Text fontSize="xs" color={c.textSecondary} mb={1}>
-            Metas completadas
-          </Text>
-          <Text
-            fontSize={{ base: "md", md: "lg" }}
-            fontWeight="bold"
-            color="green.500"
-          >
-            {metasCompletas} / {goals.length}
-          </Text>
-        </Box>
+          </>
+        ) : (
+          <HStack gap={4}>
+            {[
+              {
+                label: "Objetivo total",
+                valor: formatPEN(totalObjetivo),
+                color: c.textPrimary,
+              },
+              {
+                label: "Total aportado",
+                valor: formatPEN(totalAportado),
+                color: "green.500",
+              },
+              {
+                label: "Metas completadas",
+                valor: `${metasCompletas} / ${goals.length}`,
+                color: "green.500",
+              },
+            ].map((item) => (
+              <Box
+                key={item.label}
+                flex={1}
+                bg={c.bgCard}
+                border="1px solid"
+                borderColor={c.borderColor}
+                borderRadius="xl"
+                p={4}
+                boxShadow={c.shadow}
+              >
+                <Text fontSize="xs" color={c.textSecondary} mb={1}>
+                  {item.label}
+                </Text>
+                <Text fontSize="lg" fontWeight="bold" color={item.color}>
+                  {item.valor}
+                </Text>
+              </Box>
+            ))}
+          </HStack>
+        )}
       </Box>
       {/* ── Lista ── */}
       {loading ? (

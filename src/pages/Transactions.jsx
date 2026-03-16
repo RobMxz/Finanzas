@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useBreakpointValue } from "@chakra-ui/react";
 import {
   Box,
   Flex,
@@ -39,6 +40,7 @@ const hoyPeru = () => {
 
 export default function Transactions() {
   const toast = useToast();
+  const esMobile = useBreakpointValue({ base: true, md: false });
   const c = useColorTheme();
   const {
     transactions,
@@ -178,56 +180,98 @@ export default function Transactions() {
 
       {/* ── Resumen rápido ── */}
       <Box mb={4}>
-        {/* Fila 1: Ingresos + Gastos */}
-        <HStack gap={3} mb={3}>
-          {[
-            { label: "Ingresos", valor: totalIngresos, color: "green.500" },
-            { label: "Gastos", valor: totalGastos, color: "red.500" },
-          ].map((item) => (
+        {esMobile ? (
+          // Móvil: 2 arriba + 1 abajo
+          <>
+            <HStack gap={3} mb={3}>
+              <Box
+                flex={1}
+                bg={c.bgCard}
+                border="1px solid"
+                borderColor={c.borderColor}
+                borderRadius="xl"
+                p={3}
+                boxShadow={c.shadow}
+              >
+                <Text fontSize="xs" color={c.textSecondary} mb={1}>
+                  Ingresos
+                </Text>
+                <Text fontSize="md" fontWeight="bold" color="green.500">
+                  {formatPEN(totalIngresos)}
+                </Text>
+              </Box>
+              <Box
+                flex={1}
+                bg={c.bgCard}
+                border="1px solid"
+                borderColor={c.borderColor}
+                borderRadius="xl"
+                p={3}
+                boxShadow={c.shadow}
+              >
+                <Text fontSize="xs" color={c.textSecondary} mb={1}>
+                  Gastos
+                </Text>
+                <Text fontSize="md" fontWeight="bold" color="red.500">
+                  {formatPEN(totalGastos)}
+                </Text>
+              </Box>
+            </HStack>
             <Box
-              key={item.label}
-              flex={1}
               bg={c.bgCard}
               border="1px solid"
               borderColor={c.borderColor}
               borderRadius="xl"
-              p={{ base: 3, md: 4 }}
+              p={3}
               boxShadow={c.shadow}
             >
               <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                {item.label}
+                Balance
               </Text>
               <Text
-                fontSize={{ base: "md", md: "lg" }}
+                fontSize="md"
                 fontWeight="bold"
-                color={item.color}
+                color={
+                  totalIngresos - totalGastos >= 0 ? "green.500" : "red.500"
+                }
               >
-                {formatPEN(item.valor)}
+                {formatPEN(totalIngresos - totalGastos)}
               </Text>
             </Box>
-          ))}
-        </HStack>
-
-        {/* Fila 2: Balance solo */}
-        <Box
-          bg={c.bgCard}
-          border="1px solid"
-          borderColor={c.borderColor}
-          borderRadius="xl"
-          p={{ base: 3, md: 4 }}
-          boxShadow={c.shadow}
-        >
-          <Text fontSize="xs" color={c.textSecondary} mb={1}>
-            Balance
-          </Text>
-          <Text
-            fontSize={{ base: "md", md: "lg" }}
-            fontWeight="bold"
-            color={totalIngresos - totalGastos >= 0 ? "green.500" : "red.500"}
-          >
-            {formatPEN(totalIngresos - totalGastos)}
-          </Text>
-        </Box>
+          </>
+        ) : (
+          // Desktop: 3 en fila
+          <HStack gap={4}>
+            {[
+              { label: "Ingresos", valor: totalIngresos, color: "green.500" },
+              { label: "Gastos", valor: totalGastos, color: "red.500" },
+              {
+                label: "Balance",
+                valor: totalIngresos - totalGastos,
+                color:
+                  totalIngresos - totalGastos >= 0 ? "green.500" : "red.500",
+              },
+            ].map((item) => (
+              <Box
+                key={item.label}
+                flex={1}
+                bg={c.bgCard}
+                border="1px solid"
+                borderColor={c.borderColor}
+                borderRadius="xl"
+                p={4}
+                boxShadow={c.shadow}
+              >
+                <Text fontSize="xs" color={c.textSecondary} mb={1}>
+                  {item.label}
+                </Text>
+                <Text fontSize="lg" fontWeight="bold" color={item.color}>
+                  {formatPEN(item.valor)}
+                </Text>
+              </Box>
+            ))}
+          </HStack>
+        )}
       </Box>
 
       {/* ── Panel de filtros ── */}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useBreakpointValue } from "@chakra-ui/react";
 import {
   Box,
   Flex,
@@ -42,6 +43,7 @@ const MESES = [
 ];
 
 export default function Budgets() {
+  const esMobile = useBreakpointValue({ base: true, md: false });
   const c = useColorTheme();
   const toast = useToast();
   const {
@@ -251,60 +253,100 @@ export default function Budgets() {
 
       {/* ── Resumen ── */}
       <Box mb={4}>
-        {/* Fila 1: Presupuestado + Gastado */}
-        <HStack gap={3} mb={3}>
-          {[
-            {
-              label: "Presupuestado",
-              valor: totalLimite,
-              color: c.textPrimary,
-            },
-            { label: "Gastado", valor: totalGastado, color: "red.500" },
-          ].map((item) => (
+        {esMobile ? (
+          <>
+            <HStack gap={3} mb={3}>
+              <Box
+                flex={1}
+                bg={c.bgCard}
+                border="1px solid"
+                borderColor={c.borderColor}
+                borderRadius="xl"
+                p={3}
+                boxShadow={c.shadow}
+              >
+                <Text fontSize="xs" color={c.textSecondary} mb={1}>
+                  Presupuestado
+                </Text>
+                <Text fontSize="md" fontWeight="bold" color={c.textPrimary}>
+                  {formatPEN(totalLimite)}
+                </Text>
+              </Box>
+              <Box
+                flex={1}
+                bg={c.bgCard}
+                border="1px solid"
+                borderColor={c.borderColor}
+                borderRadius="xl"
+                p={3}
+                boxShadow={c.shadow}
+              >
+                <Text fontSize="xs" color={c.textSecondary} mb={1}>
+                  Gastado
+                </Text>
+                <Text fontSize="md" fontWeight="bold" color="red.500">
+                  {formatPEN(totalGastado)}
+                </Text>
+              </Box>
+            </HStack>
             <Box
-              key={item.label}
-              flex={1}
               bg={c.bgCard}
               border="1px solid"
               borderColor={c.borderColor}
               borderRadius="xl"
-              p={{ base: 3, md: 4 }}
+              p={3}
               boxShadow={c.shadow}
             >
               <Text fontSize="xs" color={c.textSecondary} mb={1}>
-                {item.label}
+                Disponible
               </Text>
               <Text
-                fontSize={{ base: "md", md: "lg" }}
+                fontSize="md"
                 fontWeight="bold"
-                color={item.color}
+                color={
+                  totalLimite - totalGastado >= 0 ? "green.500" : "red.500"
+                }
               >
-                {formatPEN(item.valor)}
+                {formatPEN(totalLimite - totalGastado)}
               </Text>
             </Box>
-          ))}
-        </HStack>
-
-        {/* Fila 2: Disponible solo */}
-        <Box
-          bg={c.bgCard}
-          border="1px solid"
-          borderColor={c.borderColor}
-          borderRadius="xl"
-          p={{ base: 3, md: 4 }}
-          boxShadow={c.shadow}
-        >
-          <Text fontSize="xs" color={c.textSecondary} mb={1}>
-            Disponible
-          </Text>
-          <Text
-            fontSize={{ base: "md", md: "lg" }}
-            fontWeight="bold"
-            color={totalLimite - totalGastado >= 0 ? "green.500" : "red.500"}
-          >
-            {formatPEN(totalLimite - totalGastado)}
-          </Text>
-        </Box>
+          </>
+        ) : (
+          <HStack gap={4}>
+            {[
+              {
+                label: "Presupuestado",
+                valor: totalLimite,
+                color: c.textPrimary,
+              },
+              { label: "Gastado", valor: totalGastado, color: "red.500" },
+              {
+                label: "Disponible",
+                valor: totalLimite - totalGastado,
+                color:
+                  totalLimite - totalGastado >= 0 ? "green.500" : "red.500",
+              },
+            ].map((item) => (
+              <Box
+                key={item.label}
+                flex={1}
+                bg={c.bgCard}
+                border="1px solid"
+                borderColor={c.borderColor}
+                borderRadius="xl"
+                p={4}
+                boxShadow={c.shadow}
+              >
+                <Text fontSize="xs" color={c.textSecondary} mb={1}>
+                  {item.label}
+                </Text>
+                <Text fontSize="lg" fontWeight="bold" color={item.color}>
+                  {formatPEN(item.valor)}
+                </Text>
+              </Box>
+            ))}
+          </HStack>
+        )}
       </Box>
 
       {/* ── Modal formulario ── */}
