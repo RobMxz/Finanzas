@@ -333,10 +333,9 @@ export default function Layout() {
         borderColor={c.borderColor}
         zIndex={100}
         h="65px"
-        px={2}
         boxShadow="0 -4px 20px rgba(0,0,0,0.06)"
       >
-        <Flex w="full" justify="space-around" align="center">
+        <Flex w="full" justify="space-around" align="center" px={1}>
           {navItems.map((item) => {
             const Icon = item.icon;
             return (
@@ -347,13 +346,13 @@ export default function Layout() {
                     align="center"
                     justify="center"
                     gap={0.5}
-                    px={3}
+                    px={2}
                     py={2}
                     borderRadius="12px"
                     color={isActive ? "green.500" : c.textMuted}
                     bg={isActive ? c.bgActiveNav : "transparent"}
                     transition="all 0.15s"
-                    minW="52px"
+                    flex={1}
                   >
                     <Icon size={21} />
                     <Text
@@ -370,24 +369,6 @@ export default function Layout() {
               </NavLink>
             );
           })}
-          <Flex
-            direction="column"
-            align="center"
-            justify="center"
-            gap={0.5}
-            px={3}
-            py={2}
-            borderRadius="12px"
-            color={c.textMuted}
-            _hover={{ color: "red.500" }}
-            transition="all 0.15s"
-            cursor="pointer"
-            minW="52px"
-            onClick={handleSignOut}
-          >
-            <MdLogout size={21} />
-            <Text fontSize="9px">Salir</Text>
-          </Flex>
         </Flex>
       </Box>
     </Flex>

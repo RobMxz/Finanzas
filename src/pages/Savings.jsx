@@ -72,7 +72,8 @@ function Modal({ title, onClose, children }) {
         p={{ base: 5, md: 6 }}
         w="full"
         maxW={{ base: "100%", md: "480px" }}
-        maxH={{ base: "92vh", md: "85vh" }}
+        mb={{ base: "65px", md: 0 }}
+        maxH={{ base: "calc(92vh - 65px)", md: "85vh" }}
         overflowY="auto"
         boxShadow={c.shadowLg}
         onClick={(e) => e.stopPropagation()}

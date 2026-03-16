@@ -305,6 +305,9 @@ export default function Budgets() {
             p={{ base: 5, md: 6 }}
             w="full"
             maxW={{ base: "100%", md: "440px" }}
+            mb={{ base: "65px", md: 0 }}
+            maxH={{ base: "calc(92vh - 65px)", md: "85vh" }}
+            overflowY="auto"
             boxShadow={c.shadowLg}
             onClick={(e) => e.stopPropagation()}
             className="animate-scaleIn"

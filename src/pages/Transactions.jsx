@@ -345,6 +345,7 @@ export default function Transactions() {
           justifyContent="center"
           px={{ base: 0, md: 4 }}
           onClick={cerrarForm}
+          className="animate-fadeIn"
         >
           <Box
             bg={c.bgCard}
@@ -352,13 +353,16 @@ export default function Transactions() {
             p={{ base: 5, md: 6 }}
             w="full"
             maxW={{ base: "100%", md: "500px" }}
-            maxH={{ base: "92vh", md: "auto" }}
+            // ── Clave: en móvil deja espacio para el bottom nav
+            mb={{ base: "65px", md: 0 }}
+            maxH={{ base: "calc(92vh - 65px)", md: "85vh" }}
             overflowY="auto"
-            boxShadow="xl"
+            boxShadow={c.shadowLg}
             onClick={(e) => e.stopPropagation()}
+            className="animate-scaleIn"
           >
             <Flex justify="space-between" align="center" mb={5}>
-              <Text fontWeight="semibold" fontSize="lg" color={c.textPrimary}>
+              <Text fontWeight="600" fontSize="lg" color={c.textPrimary}>
                 {editItem ? "Editar transacción" : "Nueva transacción"}
               </Text>
               <AppButton
