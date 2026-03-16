@@ -19,7 +19,8 @@ export function useTransactions() {
         .select(
           `
           *,
-          category:categories(id, nombre, color, icono, tipo)
+          category:categories(id, nombre, color, icono, tipo),
+          items:transaction_items(id, nombre, cantidad, monto)
         `,
         )
         .eq("user_id", user.id)
@@ -41,22 +42,56 @@ export function useTransactions() {
     }
   };
 
-  const createTransaction = async (datos) => {
-    const { error } = await supabase
+  const createTransaction = async (datos, items = []) => {
+    // Crear la transacción
+    const { data, error } = await supabase
       .from("transactions")
-      .insert([{ ...datos, user_id: user.id }]);
+      .insert([{ ...datos, user_id: user.id }])
+      .select()
+      .single();
     if (error) throw error;
-    // Refrescar respetando filtros activos
+
+    // Si hay ítems, insertarlos
+    if (items.length > 0) {
+      const itemsConIds = items.map((item) => ({
+        ...item,
+        transaction_id: data.id,
+        user_id: user.id,
+      }));
+      const { error: itemsError } = await supabase
+        .from("transaction_items")
+        .insert(itemsConIds);
+      if (itemsError) throw itemsError;
+    }
+
     await fetchTransactions(filtrosGuardados);
   };
 
-  const updateTransaction = async (id, datos) => {
+  const updateTransaction = async (id, datos, items = []) => {
     const { error } = await supabase
       .from("transactions")
       .update(datos)
       .eq("id", id)
       .eq("user_id", user.id);
     if (error) throw error;
+
+    // Eliminar ítems anteriores y reinsertar
+    await supabase.from("transaction_items").delete().eq("transaction_id", id);
+
+    if (items.length > 0) {
+      const itemsConIds = items.map((item) => ({
+        nombre: item.nombre,
+        cantidad: item.cantidad,
+        monto: item.monto,
+        transaction_id: id,
+        user_id: user.id,
+      }));
+      const { error: itemsError } = await supabase
+        .from("transaction_items")
+        .insert(itemsConIds);
+      if (itemsError) throw itemsError;
+    }
+
     await fetchTransactions(filtrosGuardados);
   };
 
@@ -70,7 +105,6 @@ export function useTransactions() {
     await fetchTransactions(filtrosGuardados);
   };
 
-  // Al montar siempre usa los filtros guardados en el store
   useEffect(() => {
     if (user) fetchTransactions(filtrosGuardados);
   }, [user]);

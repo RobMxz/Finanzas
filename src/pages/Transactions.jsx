@@ -72,10 +72,10 @@ export default function Transactions() {
     .filter((t) => t.tipo === "gasto")
     .reduce((acc, t) => acc + Number(t.monto), 0);
 
-  const handleSubmit = async (datos) => {
+  const handleSubmit = async (datos, items = []) => {
     try {
-      if (editItem) await updateTransaction(editItem.id, datos);
-      else await createTransaction(datos);
+      if (editItem) await updateTransaction(editItem.id, datos, items);
+      else await createTransaction(datos, items);
       setShowForm(false);
       setEditItem(null);
       toast.success(
@@ -460,6 +460,24 @@ export default function Transactions() {
                   >
                     {t.descripcion ? t.descripcion : formatFecha(t.fecha)}
                   </Text>
+                  {/* ── Ítems de desglose ── */}
+                  {t.items && t.items.length > 0 && (
+                    <Text
+                      fontSize="xs"
+                      color={c.textMuted}
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      whiteSpace="nowrap"
+                    >
+                      🧾 {t.items.length} ítem{t.items.length > 1 ? "s" : ""} ·{" "}
+                      {t.items
+                        .map(
+                          (i) =>
+                            `${Number(i.cantidad) > 1 ? `${i.cantidad}x ` : ""}${i.nombre}`,
+                        )
+                        .join(", ")}
+                    </Text>
+                  )}
                 </Box>
               </HStack>
 
